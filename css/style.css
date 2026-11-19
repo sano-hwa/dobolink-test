@@ -1213,10 +1213,6 @@ p {
     transform: translateX(-50%);
   }
 
-  body {
-    padding-bottom: calc(min(530px, 100vw - 32px) * 211 / 530 + 36px);
-  }
-
   .about::after {
     top: auto;
     bottom: -7vw;
