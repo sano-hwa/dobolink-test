@@ -201,3 +201,66 @@ document.addEventListener("keydown", (event) => {
 overlay.querySelectorAll("a").forEach((link) => {
   link.addEventListener("click", () => setMenu(false));
 });
+
+const revealEls = document.querySelectorAll(".reveal");
+const about = document.querySelector(".about");
+const hero = document.querySelector(".hero");
+
+function showReveal(el) {
+  el.classList.add("is-in");
+}
+
+if (reduceMotion.matches) {
+  revealEls.forEach(showReveal);
+  if (about) about.classList.add("is-in");
+} else {
+  const heroReveals = hero ? hero.querySelectorAll(".reveal") : [];
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        showReveal(entry.target);
+        observer.unobserve(entry.target);
+      });
+    },
+    { rootMargin: "0px 0px -8% 0px", threshold: 0 }
+  );
+
+  revealEls.forEach((el) => {
+    if (hero && hero.contains(el)) return;
+    observer.observe(el);
+  });
+
+  if (about) observer.observe(about);
+
+  window.requestAnimationFrame(() => {
+    window.requestAnimationFrame(() => {
+      heroReveals.forEach(showReveal);
+    });
+  });
+
+  let parallaxFrame = 0;
+
+  const updateParallax = () => {
+    parallaxFrame = 0;
+    if (hero) {
+      const shift = Math.max(-64, Math.min(64, -hero.getBoundingClientRect().top * 0.14));
+      hero.style.setProperty("--hero-shift", `${shift}px`);
+    }
+    if (about) {
+      const rect = about.getBoundingClientRect();
+      const center = rect.top + rect.height * 0.45 - window.innerHeight * 0.5;
+      const shift = Math.max(-42, Math.min(42, -center * 0.045));
+      about.style.setProperty("--about-shift", `${shift}px`);
+    }
+  };
+
+  const onScroll = () => {
+    if (parallaxFrame) return;
+    parallaxFrame = window.requestAnimationFrame(updateParallax);
+  };
+
+  updateParallax();
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll);
+}
