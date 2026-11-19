@@ -524,6 +524,8 @@ p {
 }
 
 .articles-intro {
+  position: sticky;
+  top: 40px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -1120,6 +1122,7 @@ p {
   }
 
   .articles-intro {
+    position: static;
     flex-direction: row;
     flex-wrap: wrap;
     align-items: flex-end;
