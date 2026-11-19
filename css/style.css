@@ -991,14 +991,10 @@ p {
   color: var(--black);
   border-radius: 20px;
   padding: 90px 80px 48px;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(280px, 460px);
-  grid-template-areas:
-    "links brand"
-    "sub company";
-  column-gap: 40px;
-  row-gap: 48px;
-  align-content: start;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
   transform: translateX(40px);
   opacity: 0;
   transition:
@@ -1010,6 +1006,17 @@ p {
   transform: none;
   opacity: 1;
   align-items: center;
+}
+
+.nav-panel__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 460px);
+  grid-template-areas:
+    "links brand"
+    "sub company";
+  column-gap: 40px;
+  row-gap: 48px;
+  align-content: start;
 }
 
 .global-nav {
@@ -1027,6 +1034,15 @@ p {
   font-size: 36px;
   font-weight: 700;
   line-height: 1;
+  transition:
+    transform 0.3s ease,
+    color 0.3s ease;
+  color: var(--black);
+}
+
+.global-nav a:hover {
+  transform: translateX(10px);
+  color: var(--green);
 }
 
 .nav-brand {
@@ -1266,15 +1282,16 @@ p {
   .nav-overlay {
     padding: 12px;
   }
-
   .nav-panel {
+    padding: 96px 28px 36px;
+  }
+  .nav-panel__inner {
     grid-template-columns: 1fr;
     grid-template-areas:
       "links"
       "brand"
       "company"
       "sub";
-    padding: 96px 28px 36px;
   }
 }
 
