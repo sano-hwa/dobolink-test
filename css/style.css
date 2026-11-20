@@ -66,6 +66,15 @@ p {
   border-radius: 50%;
   background: var(--black);
   padding: 0;
+  transition:
+    background-color 0.3s ease,
+    scale 0.3s ease;
+}
+
+.menu-btn:hover,
+.menu-btn:focus-visible {
+  background: var(--green);
+  scale: 1.06;
 }
 
 .menu-btn span {
@@ -298,6 +307,11 @@ p {
   transition: width 0.3s ease;
 }
 
+.pickup-dots button:hover,
+.pickup-dots button:focus-visible {
+  background: var(--green);
+}
+
 .pickup-dots button[aria-selected="true"] {
   width: 90px;
   background: var(--gray);
@@ -498,6 +512,7 @@ p {
   width: 14px;
   height: 16px;
   transform: rotate(90deg);
+  transition: transform 0.3s ease;
 }
 
 .btn-pill.is-light {
@@ -678,11 +693,13 @@ p {
   gap: 20px;
   font-size: 14px;
   line-height: 1.6;
+  transition: color 0.3s ease;
 }
 
 .text-link img {
   width: 40px;
   height: 40px;
+  transition: translate 0.3s ease;
 }
 
 .article-photo {
@@ -869,6 +886,7 @@ p {
   width: 40px;
   height: 40px;
   transform: translateY(-50%);
+  transition: translate 0.3s ease;
 }
 
 .site-footer {
@@ -924,6 +942,13 @@ p {
   list-style: none;
   margin: 0;
   padding: 0;
+}
+
+.footer-nav a {
+  display: inline-block;
+  transition:
+    color 0.3s ease,
+    translate 0.3s ease;
 }
 
 .footer-bottom {
@@ -1088,6 +1113,7 @@ p {
   gap: 5px;
   font-size: 16px;
   line-height: 1;
+  transition: color 0.3s ease;
 }
 
 .nav-sub img {
@@ -1210,7 +1236,7 @@ p {
     bottom: 16px;
     width: min(530px, calc(100% - 32px));
     margin: 0;
-    transform: translateX(-50%);
+    translate: -50% 0;
   }
 
   .about::after {
@@ -1647,6 +1673,10 @@ p {
 
 .hero-banner.reveal {
   --reveal-delay: 0.58s;
+  transition-property: opacity, visibility, transform;
+  transition-duration: 0.45s, 0.45s, 0.9s;
+  transition-timing-function: ease, ease, cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay), var(--reveal-delay), var(--reveal-delay);
 }
 
 .about-en {
@@ -1697,6 +1727,96 @@ p {
   --reveal-delay: 0.16s;
 }
 
+a.btn-pill {
+  transition-property: opacity, transform, background-color, color, translate;
+  transition-duration: 0.9s, 0.9s, 0.3s, 0.3s, 0.3s;
+  transition-timing-function:
+    cubic-bezier(0.22, 1, 0.36, 1),
+    cubic-bezier(0.22, 1, 0.36, 1),
+    ease,
+    ease,
+    ease;
+  transition-delay: var(--reveal-delay, 0s), var(--reveal-delay, 0s), 0s, 0s, 0s;
+}
+
+a.btn-pill:hover,
+a.btn-pill:focus-visible {
+  background: var(--green);
+  translate: 0 -4px;
+}
+
+a.btn-pill:active {
+  translate: 0 -1px;
+}
+
+a.btn-pill:hover img,
+a.btn-pill:focus-visible img {
+  transform: translateX(5px) rotate(90deg);
+}
+
+a.btn-pill.is-light:hover,
+a.btn-pill.is-light:focus-visible {
+  background: var(--yellow);
+  color: var(--black);
+}
+
+.text-link:hover,
+.text-link:focus-visible {
+  color: var(--green);
+}
+
+.text-link:hover img,
+.text-link:focus-visible img {
+  translate: 6px 0;
+}
+
+.text-link.is-light:hover,
+.text-link.is-light:focus-visible {
+  color: var(--yellow);
+}
+
+.promo.reveal {
+  transition-property: opacity, transform, background-color;
+  transition-duration: 0.9s, 0.9s, 0.3s;
+  transition-timing-function:
+    cubic-bezier(0.22, 1, 0.36, 1),
+    cubic-bezier(0.22, 1, 0.36, 1),
+    ease;
+  transition-delay: var(--reveal-delay, 0s), var(--reveal-delay, 0s), 0s;
+}
+
+.promo:hover,
+.promo:focus-visible {
+  background: #f3f8f5;
+}
+
+.promo:hover .promo-arrow,
+.promo:focus-visible .promo-arrow {
+  translate: 8px 0;
+}
+
+.footer-nav a:hover,
+.footer-nav a:focus-visible {
+  color: var(--yellow);
+  translate: 6px 0;
+}
+
+.nav-sub a:hover,
+.nav-sub a:focus-visible {
+  color: var(--green);
+}
+
+.hero-banner.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition-delay: 0s;
+}
+
+.hero-banner.is-ready {
+  transition-delay: 0s;
+}
+
 @media (max-width: 767px) {
   .reveal {
     --reveal-y: 24px;
@@ -1712,14 +1832,46 @@ p {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .menu-btn,
   .menu-btn span,
   .nav-overlay,
   .nav-panel,
   .pickup-track,
+  .pickup-dots button,
   .reveal,
+  .hero-banner.reveal,
+  a.btn-pill,
+  .btn-pill img,
+  .text-link,
+  .text-link img,
+  .promo.reveal,
+  .promo-arrow,
+  .footer-nav a,
+  .nav-sub a,
   .about::before,
   .about::after {
     transition: none;
+    animation: none;
+  }
+
+  .menu-btn:hover,
+  .menu-btn:focus-visible,
+  a.btn-pill:hover,
+  a.btn-pill:focus-visible,
+  a.btn-pill:active,
+  .text-link:hover img,
+  .text-link:focus-visible img,
+  .promo:hover .promo-arrow,
+  .promo:focus-visible .promo-arrow,
+  .footer-nav a:hover,
+  .footer-nav a:focus-visible {
+    translate: none;
+    scale: none;
+  }
+
+  a.btn-pill:hover img,
+  a.btn-pill:focus-visible img {
+    transform: rotate(90deg);
   }
 
   .reveal,

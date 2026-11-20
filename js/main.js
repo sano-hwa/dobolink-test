@@ -265,6 +265,26 @@ function initPage() {
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
   }
+
+  const banner = document.querySelector(".hero-banner");
+  const footer = document.querySelector(".site-footer");
+
+  if (banner && footer) {
+    const markBannerReady = (event) => {
+      if (event.target !== banner || event.propertyName !== "opacity") return;
+      banner.classList.add("is-ready");
+      banner.removeEventListener("transitionend", markBannerReady);
+    };
+    banner.addEventListener("transitionend", markBannerReady);
+    if (reduceMotion.matches) banner.classList.add("is-ready");
+
+    const bannerObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        banner.classList.toggle("is-hidden", entry.isIntersecting);
+      });
+    });
+    bannerObserver.observe(footer);
+  }
 }
 
 if (window.__includesReady) {
