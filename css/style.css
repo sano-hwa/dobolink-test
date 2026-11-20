@@ -585,7 +585,6 @@ p {
   display: flex;
   flex-direction: column;
   gap: 90px;
-  overflow-x: clip;
 }
 
 .article {
@@ -612,10 +611,6 @@ p {
 .article.is-flip .article-copy {
   justify-self: end;
   text-align: right;
-}
-
-.article.is-flip .article-titles {
-  box-shadow: 20px 0 0 var(--black);
 }
 
 .article.is-flip .article-meta,
@@ -1676,7 +1671,8 @@ p {
   transition-property: opacity, visibility, transform;
   transition-duration: 0.45s, 0.45s, 0.9s;
   transition-timing-function: ease, ease, cubic-bezier(0.22, 1, 0.36, 1);
-  transition-delay: var(--reveal-delay), var(--reveal-delay), var(--reveal-delay);
+  transition-delay:
+    var(--reveal-delay), var(--reveal-delay), var(--reveal-delay);
 }
 
 .about-en {
@@ -1731,12 +1727,10 @@ a.btn-pill {
   transition-property: opacity, transform, background-color, color, translate;
   transition-duration: 0.9s, 0.9s, 0.3s, 0.3s, 0.3s;
   transition-timing-function:
-    cubic-bezier(0.22, 1, 0.36, 1),
-    cubic-bezier(0.22, 1, 0.36, 1),
-    ease,
-    ease,
+    cubic-bezier(0.22, 1, 0.36, 1), cubic-bezier(0.22, 1, 0.36, 1), ease, ease,
     ease;
-  transition-delay: var(--reveal-delay, 0s), var(--reveal-delay, 0s), 0s, 0s, 0s;
+  transition-delay:
+    var(--reveal-delay, 0s), var(--reveal-delay, 0s), 0s, 0s, 0s;
 }
 
 a.btn-pill:hover,
@@ -1779,9 +1773,7 @@ a.btn-pill.is-light:focus-visible {
   transition-property: opacity, transform, background-color;
   transition-duration: 0.9s, 0.9s, 0.3s;
   transition-timing-function:
-    cubic-bezier(0.22, 1, 0.36, 1),
-    cubic-bezier(0.22, 1, 0.36, 1),
-    ease;
+    cubic-bezier(0.22, 1, 0.36, 1), cubic-bezier(0.22, 1, 0.36, 1), ease;
   transition-delay: var(--reveal-delay, 0s), var(--reveal-delay, 0s), 0s;
 }
 
