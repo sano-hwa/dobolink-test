@@ -1,9 +1,9 @@
 function initPickup(reduceMotion) {
   const countEl = document.querySelector("[data-pickup-count]");
-  const dotsEl = document.querySelector(".pickup-dots");
-  const windowEl = document.querySelector(".pickup-window");
-  const track = document.querySelector(".pickup-track");
-  const visual = document.querySelector(".hero-visual");
+  const dotsEl = document.querySelector(".pickup__dots");
+  const windowEl = document.querySelector(".pickup__window");
+  const track = document.querySelector(".pickup__track");
+  const visual = document.querySelector(".hero__visual");
   if (!countEl || !dotsEl || !windowEl || !track || !visual) return;
 
   const slides = [
@@ -63,17 +63,17 @@ function initPickup(reduceMotion) {
 
   const slideEls = slides.map((slide) => {
     const article = document.createElement("article");
-    article.className = "pickup-slide";
+    article.className = "pickup__slide";
     const body = document.createElement("div");
-    body.className = "pickup-body";
+    body.className = "pickup__body";
     const title = document.createElement("h2");
-    title.className = "pickup-title";
+    title.className = "pickup__title";
     title.textContent = slide.title;
     const text = document.createElement("p");
-    text.className = "pickup-text";
+    text.className = "pickup__text";
     text.textContent = slide.text;
     const date = document.createElement("p");
-    date.className = "pickup-date";
+    date.className = "pickup__date";
     date.textContent = slide.date;
     body.append(title, text, date);
     article.append(body);
@@ -83,6 +83,7 @@ function initPickup(reduceMotion) {
 
   const visualImgs = slides.map((slide) => {
     const img = document.createElement("img");
+    img.className = "hero__image";
     img.src = slide.image;
     img.alt = slide.alt;
     img.width = 1800;
@@ -97,7 +98,7 @@ function initPickup(reduceMotion) {
     const started = performance.now();
     const tick = (now) => {
       const progress = Math.min(1, (now - started) / pickupDuration);
-      const meter = dotsEl.querySelector('[aria-selected="true"] .pickup-meter');
+      const meter = dotsEl.querySelector('[aria-selected="true"] .pickup__meter');
       if (meter) meter.style.transform = `scaleX(${progress})`;
       if (progress >= 1) {
         movePickup((pickupIndex + 1) % slides.length, true);
@@ -116,12 +117,12 @@ function initPickup(reduceMotion) {
       slide.setAttribute("aria-hidden", slideIndex === index ? "false" : "true");
     });
     const instant = !animate || reduceMotion.matches;
-    track.classList.toggle("is-instant", instant);
-    visual.classList.toggle("is-instant", instant);
+    track.classList.toggle("pickup__track--instant", instant);
+    visual.classList.toggle("hero__visual--instant", instant);
     track.style.transform = `translate3d(${-index * width}px, 0, 0)`;
     visualImgs.forEach((img, imageIndex) => {
       const active = imageIndex === index;
-      img.classList.toggle("is-active", active);
+      img.classList.toggle("hero__image--active", active);
       img.setAttribute("aria-hidden", active ? "false" : "true");
     });
     countEl.textContent = `${index + 1} / ${slides.length}`;
@@ -130,7 +131,7 @@ function initPickup(reduceMotion) {
       button.setAttribute("aria-selected", selected ? "true" : "false");
       button.tabIndex = selected ? 0 : -1;
       if (!selected) {
-        const meter = button.querySelector(".pickup-meter");
+        const meter = button.querySelector(".pickup__meter");
         if (meter) meter.style.transform = "scaleX(0)";
       }
     });
@@ -140,10 +141,11 @@ function initPickup(reduceMotion) {
   slides.forEach((slide, index) => {
     const button = document.createElement("button");
     button.type = "button";
+    button.className = "pickup__dot";
     button.setAttribute("role", "tab");
     button.setAttribute("aria-label", `${index + 1}枚目`);
     const meter = document.createElement("span");
-    meter.className = "pickup-meter";
+    meter.className = "pickup__meter";
     meter.setAttribute("aria-hidden", "true");
     button.append(meter);
     button.addEventListener("click", () => movePickup(index, true));
@@ -157,8 +159,8 @@ function initPickup(reduceMotion) {
 
 function initMenu() {
   const menuButton = document.querySelector(".menu-btn");
-  const overlay = document.querySelector(".nav-overlay");
-  const panel = document.querySelector(".nav-panel");
+  const overlay = document.querySelector(".nav");
+  const panel = document.querySelector(".nav__panel");
   if (!menuButton || !overlay || !panel) return;
 
   let menuOpen = false;
@@ -170,22 +172,22 @@ function initMenu() {
     menuOpen = open;
     window.clearTimeout(closeTimer);
     window.cancelAnimationFrame(openFrame);
-    menuButton.classList.toggle("is-open", open);
+    menuButton.classList.toggle("menu-btn--open", open);
     menuButton.setAttribute("aria-expanded", open ? "true" : "false");
     menuButton.setAttribute("aria-label", open ? "メニューを閉じる" : "メニューを開く");
-    document.body.classList.toggle("is-locked", open);
+    document.body.classList.toggle("u-scroll-lock", open);
 
     if (open) {
       overlay.hidden = false;
       openFrame = requestAnimationFrame(() => {
         openFrame = requestAnimationFrame(() => {
-          if (menuOpen) overlay.classList.add("is-open");
+          if (menuOpen) overlay.classList.add("nav--open");
         });
       });
       return;
     }
 
-    overlay.classList.remove("is-open");
+    overlay.classList.remove("nav--open");
     closeTimer = window.setTimeout(() => {
       if (!menuOpen) overlay.hidden = true;
     }, 400);
@@ -200,7 +202,7 @@ function initMenu() {
   });
 
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && overlay.classList.contains("is-open")) setMenu(false);
+    if (event.key === "Escape" && overlay.classList.contains("nav--open")) setMenu(false);
   });
 
   overlay.querySelectorAll("a").forEach((link) => {
@@ -214,12 +216,16 @@ function initReveal(reduceMotion) {
   const hero = document.querySelector(".hero");
 
   function showReveal(el) {
-    el.classList.add("is-in");
+    if (el.classList.contains("about")) {
+      el.classList.add("about--in");
+      return;
+    }
+    el.classList.add("reveal--in");
   }
 
   if (reduceMotion.matches) {
     revealEls.forEach(showReveal);
-    if (about) about.classList.add("is-in");
+    if (about) about.classList.add("about--in");
     return;
   }
 
@@ -277,21 +283,21 @@ function initReveal(reduceMotion) {
 }
 
 function initBanner(reduceMotion) {
-  const banner = document.querySelector(".hero-banner");
+  const banner = document.querySelector(".hero__banner");
   const footer = document.querySelector(".site-footer");
   if (!banner || !footer) return;
 
   const markBannerReady = (event) => {
     if (event.target !== banner || event.propertyName !== "opacity") return;
-    banner.classList.add("is-ready");
+    banner.classList.add("hero__banner--ready");
     banner.removeEventListener("transitionend", markBannerReady);
   };
   banner.addEventListener("transitionend", markBannerReady);
-  if (reduceMotion.matches) banner.classList.add("is-ready");
+  if (reduceMotion.matches) banner.classList.add("hero__banner--ready");
 
   const bannerObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
-      banner.classList.toggle("is-hidden", entry.isIntersecting);
+      banner.classList.toggle("hero__banner--hidden", entry.isIntersecting);
     });
   });
   bannerObserver.observe(footer);

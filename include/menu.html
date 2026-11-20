@@ -5,31 +5,31 @@
   aria-controls="global-nav"
   aria-label="メニューを開く"
 >
-  <span></span>
-  <span></span>
-  <span></span>
+  <span class="menu-btn__line"></span>
+  <span class="menu-btn__line"></span>
+  <span class="menu-btn__line"></span>
 </button>
 
-<div class="nav-overlay" id="global-nav" hidden>
-  <div class="nav-panel" role="dialog" aria-modal="true" aria-label="メニュー">
-    <div class="nav-panel__inner">
-      <nav class="global-nav" aria-label="メインメニュー">
-        <a href="#about">DOBOLINKとは？</a>
-        <a href="#articles">記事一覧</a>
-        <a href="#articles">編集後記一覧</a>
-        <a href="#publications">最新号のお知らせ</a>
-        <a href="#publications">書籍情報</a>
-        <a href="#lab">あらためて知ろう！〜土木の世界〜</a>
-        <a href="#ad">メディア掲載について</a>
+<div class="nav" id="global-nav" hidden>
+  <div class="nav__panel" role="dialog" aria-modal="true" aria-label="メニュー">
+    <div class="nav__inner">
+      <nav class="nav__menu" aria-label="メインメニュー">
+        <a class="nav__link" href="#about">DOBOLINKとは？</a>
+        <a class="nav__link" href="#articles">記事一覧</a>
+        <a class="nav__link" href="#articles">編集後記一覧</a>
+        <a class="nav__link" href="#publications">最新号のお知らせ</a>
+        <a class="nav__link" href="#publications">書籍情報</a>
+        <a class="nav__link" href="#lab">あらためて知ろう！〜土木の世界〜</a>
+        <a class="nav__link" href="#ad">メディア掲載について</a>
       </nav>
-      <div class="nav-aside">
-        <div class="nav-brand">
+      <div class="nav__aside">
+        <div class="nav__brand">
           <p class="tagline">
-            <span class="tagline-text"
-              >土木を、もっと<span class="em">おもしろく。</span></span
+            <span class="tagline__text"
+              >土木を、もっと<span class="tagline__em">おもしろく。</span></span
             >
             <img
-              class="tagline-line"
+              class="tagline__line"
               src="../images/catch-line.svg"
               alt=""
               width="308"
@@ -48,19 +48,26 @@
           </p>
         </div>
         <div class="company">
-          <img src="../images/logo-office.svg" alt="" width="90" height="90" />
+          <img
+            class="company__logo"
+            src="../images/logo-office.svg"
+            alt=""
+            width="90"
+            height="90"
+          />
           <div>
-            <p class="company-name">株式会社オフィス・スペース</p>
-            <p>
+            <p class="company__name">株式会社オフィス・スペース</p>
+            <p class="company__address">
               〒103-0025　<br />東京都中央区日本橋茅場町2-12-3 寿ビル2F<br />TEL：03-5645-1448
             </p>
           </div>
         </div>
       </div>
-      <ul class="nav-sub">
+      <ul class="nav__sub">
         <li>
-          <a href="#terms"
+          <a class="nav__sub-link" href="#terms"
             ><img
+              class="nav__icon"
               src="../images/dot-green.svg"
               alt=""
               width="10"
@@ -69,8 +76,9 @@
           >
         </li>
         <li>
-          <a href="#company"
+          <a class="nav__sub-link" href="#company"
             ><img
+              class="nav__icon"
               src="../images/dot-green.svg"
               alt=""
               width="10"
@@ -79,8 +87,9 @@
           >
         </li>
         <li>
-          <a href="#contact"
+          <a class="nav__sub-link" href="#contact"
             ><img
+              class="nav__icon"
               src="../images/dot-green.svg"
               alt=""
               width="10"
