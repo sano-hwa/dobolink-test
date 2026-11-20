@@ -1,4 +1,11 @@
-function initPage() {
+function initPickup(reduceMotion) {
+  const countEl = document.querySelector("[data-pickup-count]");
+  const dotsEl = document.querySelector(".pickup-dots");
+  const windowEl = document.querySelector(".pickup-window");
+  const track = document.querySelector(".pickup-track");
+  const visual = document.querySelector(".hero-visual");
+  if (!countEl || !dotsEl || !windowEl || !track || !visual) return;
+
   const slides = [
     {
       title: "特集：砂防の防災減災技術・最新技術特集：砂防の防災",
@@ -49,13 +56,6 @@ function initPage() {
       focus: "75% 35%"
     }
   ];
-
-  const countEl = document.querySelector("[data-pickup-count]");
-  const dotsEl = document.querySelector(".pickup-dots");
-  const windowEl = document.querySelector(".pickup-window");
-  const track = document.querySelector(".pickup-track");
-  const visual = document.querySelector(".hero-visual");
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
   const pickupDuration = 5000;
   let pickupIndex = 2;
@@ -153,10 +153,14 @@ function initPage() {
   movePickup(pickupIndex, false);
 
   window.addEventListener("resize", () => movePickup(pickupIndex, false, false));
+}
 
+function initMenu() {
   const menuButton = document.querySelector(".menu-btn");
   const overlay = document.querySelector(".nav-overlay");
   const panel = document.querySelector(".nav-panel");
+  if (!menuButton || !overlay || !panel) return;
+
   let menuOpen = false;
   let closeTimer = 0;
   let openFrame = 0;
@@ -202,7 +206,9 @@ function initPage() {
   overlay.querySelectorAll("a").forEach((link) => {
     link.addEventListener("click", () => setMenu(false));
   });
+}
 
+function initReveal(reduceMotion) {
   const revealEls = document.querySelectorAll(".reveal");
   const about = document.querySelector(".about");
   const hero = document.querySelector(".hero");
@@ -214,77 +220,89 @@ function initPage() {
   if (reduceMotion.matches) {
     revealEls.forEach(showReveal);
     if (about) about.classList.add("is-in");
-  } else {
-    const heroReveals = hero ? hero.querySelectorAll(".reveal") : [];
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          showReveal(entry.target);
-          observer.unobserve(entry.target);
-        });
-      },
-      { rootMargin: "0px 0px -8% 0px", threshold: 0 }
-    );
-
-    revealEls.forEach((el) => {
-      if (hero && hero.contains(el)) return;
-      observer.observe(el);
-    });
-
-    if (about) observer.observe(about);
-
-    window.requestAnimationFrame(() => {
-      window.requestAnimationFrame(() => {
-        heroReveals.forEach(showReveal);
-      });
-    });
-
-    let parallaxFrame = 0;
-
-    const updateParallax = () => {
-      parallaxFrame = 0;
-      if (hero) {
-        const shift = Math.max(-64, Math.min(64, -hero.getBoundingClientRect().top * 0.14));
-        hero.style.setProperty("--hero-shift", `${shift}px`);
-      }
-      if (about) {
-        const rect = about.getBoundingClientRect();
-        const center = rect.top + rect.height * 0.45 - window.innerHeight * 0.5;
-        const shift = Math.max(-42, Math.min(42, -center * 0.045));
-        about.style.setProperty("--about-shift", `${shift}px`);
-      }
-    };
-
-    const onScroll = () => {
-      if (parallaxFrame) return;
-      parallaxFrame = window.requestAnimationFrame(updateParallax);
-    };
-
-    updateParallax();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
+    return;
   }
 
+  const heroReveals = hero ? hero.querySelectorAll(".reveal") : [];
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        showReveal(entry.target);
+        observer.unobserve(entry.target);
+      });
+    },
+    { rootMargin: "0px 0px -8% 0px", threshold: 0 }
+  );
+
+  revealEls.forEach((el) => {
+    if (hero && hero.contains(el)) return;
+    observer.observe(el);
+  });
+
+  if (about) observer.observe(about);
+
+  window.requestAnimationFrame(() => {
+    window.requestAnimationFrame(() => {
+      heroReveals.forEach(showReveal);
+    });
+  });
+
+  if (!hero && !about) return;
+
+  let parallaxFrame = 0;
+
+  const updateParallax = () => {
+    parallaxFrame = 0;
+    if (hero) {
+      const shift = Math.max(-64, Math.min(64, -hero.getBoundingClientRect().top * 0.14));
+      hero.style.setProperty("--hero-shift", `${shift}px`);
+    }
+    if (about) {
+      const rect = about.getBoundingClientRect();
+      const center = rect.top + rect.height * 0.45 - window.innerHeight * 0.5;
+      const shift = Math.max(-42, Math.min(42, -center * 0.045));
+      about.style.setProperty("--about-shift", `${shift}px`);
+    }
+  };
+
+  const onScroll = () => {
+    if (parallaxFrame) return;
+    parallaxFrame = window.requestAnimationFrame(updateParallax);
+  };
+
+  updateParallax();
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll);
+}
+
+function initBanner(reduceMotion) {
   const banner = document.querySelector(".hero-banner");
   const footer = document.querySelector(".site-footer");
+  if (!banner || !footer) return;
 
-  if (banner && footer) {
-    const markBannerReady = (event) => {
-      if (event.target !== banner || event.propertyName !== "opacity") return;
-      banner.classList.add("is-ready");
-      banner.removeEventListener("transitionend", markBannerReady);
-    };
-    banner.addEventListener("transitionend", markBannerReady);
-    if (reduceMotion.matches) banner.classList.add("is-ready");
+  const markBannerReady = (event) => {
+    if (event.target !== banner || event.propertyName !== "opacity") return;
+    banner.classList.add("is-ready");
+    banner.removeEventListener("transitionend", markBannerReady);
+  };
+  banner.addEventListener("transitionend", markBannerReady);
+  if (reduceMotion.matches) banner.classList.add("is-ready");
 
-    const bannerObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        banner.classList.toggle("is-hidden", entry.isIntersecting);
-      });
+  const bannerObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      banner.classList.toggle("is-hidden", entry.isIntersecting);
     });
-    bannerObserver.observe(footer);
-  }
+  });
+  bannerObserver.observe(footer);
+}
+
+function initPage() {
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  initPickup(reduceMotion);
+  initMenu();
+  initReveal(reduceMotion);
+  initBanner(reduceMotion);
 }
 
 if (window.__includesReady) {
