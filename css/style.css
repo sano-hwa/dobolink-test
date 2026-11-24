@@ -1194,6 +1194,125 @@ p {
     );
   padding: 200px 0;
   position: relative;
+  overflow: hidden;
+}
+
+.dobokulab-top-about__sky {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 52%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.dobokulab-top-about__cloud {
+  position: absolute;
+  top: var(--top);
+  left: 100%;
+  width: var(--size);
+  animation: dobokulab-cloud-drift var(--dur) linear infinite;
+  animation-delay: var(--delay);
+}
+
+.dobokulab-top-about__cloud img {
+  width: 100%;
+  height: auto;
+  animation: dobokulab-cloud-float var(--float) ease-in-out infinite;
+  animation-delay: var(--float-delay);
+}
+
+.dobokulab-top-about__cloud--1 {
+  --top: 6%;
+  --size: clamp(150px, 16vw, 230px);
+  --dur: 86s;
+  --delay: -12s;
+  --float: 8.5s;
+  --float-delay: -1s;
+  --bob: 12px;
+  --rest: 4%;
+}
+
+.dobokulab-top-about__cloud--2 {
+  --top: 38%;
+  --size: clamp(120px, 13vw, 180px);
+  --dur: 68s;
+  --delay: -24s;
+  --float: 6.4s;
+  --float-delay: -3s;
+  --bob: 16px;
+  --rest: 24%;
+  opacity: 0.92;
+}
+
+.dobokulab-top-about__cloud--3 {
+  --top: 2%;
+  --size: clamp(90px, 10vw, 140px);
+  --dur: 104s;
+  --delay: -58s;
+  --float: 5.6s;
+  --float-delay: -2s;
+  --bob: 8px;
+  --rest: 46%;
+  opacity: 0.8;
+}
+
+.dobokulab-top-about__cloud--4 {
+  --top: 58%;
+  --size: clamp(180px, 20vw, 280px);
+  --dur: 58s;
+  --delay: -40s;
+  --float: 9.2s;
+  --float-delay: -4s;
+  --bob: 10px;
+  --rest: 62%;
+}
+
+.dobokulab-top-about__cloud--5 {
+  --top: 22%;
+  --size: clamp(130px, 14vw, 200px);
+  --dur: 76s;
+  --delay: -50s;
+  --float: 7.2s;
+  --float-delay: -5s;
+  --bob: 14px;
+  --rest: 78%;
+  opacity: 0.94;
+}
+
+.dobokulab-top-about__cloud--5 img {
+  scale: -1 1;
+}
+
+@keyframes dobokulab-cloud-drift {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(calc(-100vw - 100%), 0, 0);
+  }
+}
+
+@keyframes dobokulab-cloud-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, var(--bob), 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dobokulab-top-about__cloud,
+  .dobokulab-top-about__cloud img {
+    animation: none;
+  }
+
+  .dobokulab-top-about__cloud {
+    left: var(--rest);
+  }
 }
 
 .dobokulab-top-about__title {
@@ -1224,6 +1343,8 @@ p {
   align-items: flex-start;
   justify-content: center;
   gap: 40px;
+  position: relative;
+  z-index: 2;
 }
 
 .dobokulab-top-about__txt {
